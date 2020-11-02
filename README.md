@@ -3,12 +3,10 @@ IntelliJ IDEA / PhpStorm Neos Plugin
 [![Build Status](https://travis-ci.org/cvette/intellij-neos.svg?branch=master)](https://travis-ci.org/cvette/intellij-neos)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9362-neos-support.svg)](https://plugins.jetbrains.com/plugin/9362-neos-support)
 
-This is a **work in progress**. There may be performance and stability problems.
+<!-- Plugin description -->
+Support for the Neos CMS in Intellij IDEA / PhpStorm
 
-Features
---------
-
-* Neos Fusion language support
+**Neos Fusion language support**
   * Configurable syntax highlighting
   * Basic formatting
   * Brace matching
@@ -17,9 +15,11 @@ Features
   * Structure view
   * EEL helper references (Ctrl+Click navigation to class/method)
   * Prototype references (Ctrl+Click navigation to prototype definition)
-* Support for node type definitions
+
+**Support for node type definitions**
   * Configuration keys completion
   * "Go to definition" for node types / supertypes / constraints
+<!-- Plugin description end -->
 
 Usage
 -----

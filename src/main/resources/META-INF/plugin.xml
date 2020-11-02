@@ -4,7 +4,7 @@
   <vendor email="neos@christianvette.de" url="https://github.com/cvette/intellij-neos">Christian Vette</vendor>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="183.3283.10"/>
+  <idea-version since-build="193.2252"/>
 
   <depends>com.intellij.modules.platform</depends>
   <depends>com.jetbrains.php</depends>
@@ -28,13 +28,31 @@
                          parentId="reference.webide.settings.project.settings.php"
                          nonDefaultProject="true"
     />
+
+    <internalFileTemplate name="Fusion File"/>
+    <internalFileTemplate name="Fusion Content Prototype"/>
+    <internalFileTemplate name="Fusion Component Prototype"/>
+
+    <internalFileTemplate name="Neos Node Type"/>
+    <internalFileTemplate name="Neos Document Node Type"/>
+    <internalFileTemplate name="Neos Content Node Type"/>
+    <internalFileTemplate name="Neos Collection Node Type"/>
+    <internalFileTemplate name="Neos Mixin Node Type"/>
+    <internalFileTemplate name="Neos Constraint Node Type"/>
+
+    <defaultTemplatePropertiesProvider implementation="de.vette.idea.neos.actions.FusionTemplatePropertiesProvider"/>
+    <createFromTemplateHandler implementation="de.vette.idea.neos.actions.FusionCreateFromTemplateHandler"/>
+    <createFromTemplateHandler implementation="de.vette.idea.neos.actions.NodeTypeCreateFromTemplateHandler"/>
+
     <lang.parserDefinition language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.FusionParserDefinition"/>
-    <lang.syntaxHighlighterFactory key="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.highlighting.FusionSyntaxHighlighterFactory"/>
+    <lang.syntaxHighlighterFactory language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.highlighting.FusionSyntaxHighlighterFactory"/>
     <lang.braceMatcher language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.editor.FusionBraceMatcher"/>
     <lang.formatter language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.formatter.FusionFormattingModelBuilder"/>
     <lang.commenter language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.editor.FusionCommenter" />
     <lang.foldingBuilder language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.editor.FusionFoldingBuilder"/>
     <lang.psiStructureViewFactory language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.structure.FusionStructureViewBuilderFactory"/>
+
+    <liveTemplateContext implementation="de.vette.idea.neos.lang.fusion.livetemplates.FusionContext"/>
 
     <fileType name="Neos Fusion" language="NeosFusion" implementationClass="de.vette.idea.neos.lang.fusion.FusionFileType" extensions="fusion;ts2" />
     <colorSettingsPage implementation="de.vette.idea.neos.lang.fusion.pages.FusionColorSettingsPage"/>
@@ -62,14 +80,24 @@
     <stubIndex implementation="de.vette.idea.neos.lang.fusion.stubs.index.FusionNamespaceDeclarationIndex"/>
     <stubIndex implementation="de.vette.idea.neos.lang.fusion.stubs.index.FusionPrototypeDeclarationIndex"/>
 
+    <stubElementTypeHolder class="de.vette.idea.neos.lang.fusion.stubs.FusionFileStub"/>
+    <stubElementTypeHolder class="de.vette.idea.neos.lang.fusion.psi.FusionTypes"/>
+
     <patterns.patternClass className="de.vette.idea.neos.lang.fusion.patterns.FusionPatterns" alias="fusion"/>
     <languageInjector implementation="de.vette.idea.neos.lang.fusion.injection.FusionLanguageInjector" />
     <xml.elementDescriptorProvider implementation="de.vette.idea.neos.lang.afx.AfxFusionElementDescriptorProvider" />
+
+    <projectService serviceImplementation="de.vette.idea.neos.NeosProjectService"/>
+    <postStartupActivity implementation="de.vette.idea.neos.NeosStartupActivity" />
   </extensions>
 
-  <project-components>
-    <component>
-      <implementation-class>de.vette.idea.neos.NeosProjectComponent</implementation-class>
-    </component>
-  </project-components>
+
+  <actions>
+    <action id="Neos.NewNodeTypeDefinition" class="de.vette.idea.neos.actions.CreateNodeTypeDefinition" text="Node Type Definition" description="Create new node type definition">
+      <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
+    </action>
+    <action id="Neos.NewFusionFile" class="de.vette.idea.neos.actions.CreateFusionFile" text="Fusion File" description="Create new Fusion file">
+      <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
+    </action>
+  </actions>
 </idea-plugin>

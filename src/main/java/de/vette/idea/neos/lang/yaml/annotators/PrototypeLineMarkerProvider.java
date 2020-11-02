@@ -22,7 +22,7 @@ import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.psi.PsiElement;
-import de.vette.idea.neos.NeosProjectComponent;
+import de.vette.idea.neos.NeosProjectService;
 import de.vette.idea.neos.lang.fusion.icons.FusionIcons;
 import de.vette.idea.neos.lang.fusion.resolve.ResolveEngine;
 import org.jetbrains.annotations.NotNull;
@@ -38,14 +38,14 @@ public class PrototypeLineMarkerProvider implements LineMarkerProvider {
 
     @Nullable
     @Override
-    public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+    public LineMarkerInfo<?> getLineMarkerInfo(@NotNull PsiElement element) {
         return null;
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         for (PsiElement el : elements) {
-            if (!NeosProjectComponent.isEnabled(el)) {
+            if (!NeosProjectService.isEnabled(el)) {
                 return;
             }
 
@@ -68,7 +68,7 @@ public class PrototypeLineMarkerProvider implements LineMarkerProvider {
 
                 List<PsiElement> targets = ResolveEngine.getPrototypeDefinitions(el.getProject(), nodeTypeSplit[1], nodeTypeSplit[0]);
                 if (!targets.isEmpty()) {
-                    RelatedItemLineMarkerInfo info = NavigationGutterIconBuilder
+                    RelatedItemLineMarkerInfo<PsiElement> info = NavigationGutterIconBuilder
                             .create(FusionIcons.PROTOTYPE)
                             .setTargets(targets)
                             .setTooltipText("Go to Fusion prototype")
